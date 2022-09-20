@@ -7,18 +7,21 @@ import 'package:shopping/Providers/product.dart';
 class ProductItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final product = Provider.of<Product>(context);
+    final product = Provider.of<Product>(context, listen: false);
+    print('product is rebuilt');
     return ClipRRect(
       borderRadius: const BorderRadius.all(Radius.circular(15)),
       child: GridTile(
         footer: GridTileBar(
-          leading: IconButton(
-            onPressed: () {
-              product.isFavoriteTap();
-            },
-            icon: Icon(
-                product.isFavorite ? Icons.favorite : Icons.favorite_border),
-            color: Theme.of(context).colorScheme.secondary,
+          leading: Consumer<Product>(
+            builder: (ctx, product, child) => IconButton(
+              onPressed: () {
+                product.isFavoriteTap();
+              },
+              icon: Icon(
+                  product.isFavorite ? Icons.favorite : Icons.favorite_border),
+              color: Theme.of(context).colorScheme.secondary,
+            ),
           ),
           trailing: IconButton(
             icon: const Icon(
